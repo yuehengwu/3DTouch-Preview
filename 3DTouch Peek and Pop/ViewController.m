@@ -7,11 +7,12 @@
 //
 
 #import "ViewController.h"
-#import "PreviewViewController.h"
-#import "TouchView.h"
-#import "RealPreviewViewController.h"
 
-@interface ViewController () <UIViewControllerPreviewingDelegate>
+#import "Wyh3DTouchPhotoPreviewer.h"
+
+@interface ViewController () <Wyh3DTouchPhotoPreviewerDelegate>
+
+@property (nonatomic, strong) Wyh3DTouchPhotoPreviewer *previewer;
 
 @end
 
@@ -25,46 +26,27 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    TouchView *touchView = [TouchView new];
+    UIView *touchView = [UIView new];
+    touchView.backgroundColor = [UIColor blackColor];
     touchView.frame = CGRectMake(0, 0, 100, 100);
     touchView.center = self.view.center;
     [self.view addSubview:touchView];
     
-    [self registerForPreviewingWithDelegate:self sourceView:touchView];
-}
-
-// peek
-- (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
-    
-    PreviewViewController *previewVC = [[PreviewViewController alloc]init];
-    CGSize size = [previewVC setGifImages:[self wyh_imagesWithGif:@"Source.bundle/thief.gif"]];
-    previewVC.preferredContentSize = size;
-    return previewVC;
+    [self.previewer registerForPreviewingWithSourceView:touchView];
     
 }
 
-// pop
-- (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
-    
-    [self.navigationController pushViewController:viewControllerToCommit animated:YES];
-    [(PreviewViewController *)viewControllerToCommit stopPreviewing];
-}
-
--(NSArray *)wyh_imagesWithGif:(NSString *)gifNameInBoundle {
-    
-    NSAssert(gifNameInBoundle, @"gif路径不得为空");
-    
-    NSString *dataPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:gifNameInBoundle];
-    CGImageSourceRef gifSource = CGImageSourceCreateWithURL((CFURLRef)[NSURL fileURLWithPath:dataPath], NULL);
-    size_t gifCount = CGImageSourceGetCount(gifSource);
-    NSMutableArray *imageArr = [[NSMutableArray alloc]init];
-    for (size_t i = 0; i< gifCount; i++) {
-        CGImageRef imageRef = CGImageSourceCreateImageAtIndex(gifSource, i, NULL);
-        UIImage *image = [UIImage imageWithCGImage:imageRef];
-        [imageArr addObject:image];
-        CGImageRelease(imageRef);
+- (Wyh3DTouchPhotoPreviewer *)previewer {
+    if (!_previewer) {
+        _previewer = [Wyh3DTouchPhotoPreviewer previewerWithDelegate:self];
     }
-    return imageArr;
+    return _previewer;
+}
+
+#pragma mark - Wyh3DTouchPhotoPreviewerDelegate
+
+- (NSString *)wyh3DTouchPhotoPathWithSourceView:(UIView *)sourceView {
+    return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Source.bundle/thief.gif"];
 }
 
 - (void)didReceiveMemoryWarning {

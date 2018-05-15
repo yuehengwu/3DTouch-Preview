@@ -16,9 +16,11 @@
 		0930D76A20AA7FED005D7F0E /* _DTouch_Peek_and_PopTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0930D76920AA7FED005D7F0E /* _DTouch_Peek_and_PopTests.m */; };
 		0930D77520AA7FED005D7F0E /* _DTouch_Peek_and_PopUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0930D77420AA7FED005D7F0E /* _DTouch_Peek_and_PopUITests.m */; };
 		0930D78420AA8892005D7F0E /* TouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0930D78320AA8892005D7F0E /* TouchView.m */; };
-		0930D78720AA88F1005D7F0E /* PreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0930D78620AA88F1005D7F0E /* PreviewViewController.m */; };
+		0930D78720AA88F1005D7F0E /* WyhPhotoPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0930D78620AA88F1005D7F0E /* WyhPhotoPreviewController.m */; };
 		0930D78D20AAB442005D7F0E /* Source.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0930D78C20AAB442005D7F0E /* Source.bundle */; };
 		0930D79020AACBBF005D7F0E /* PhotoPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0930D78F20AACBBF005D7F0E /* PhotoPreviewController.m */; };
+		09D08BAD20AB0E3A009C3163 /* Wyh3DTouchSuperPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09D08BAC20AB0E3A009C3163 /* Wyh3DTouchSuperPreviewController.m */; };
+		09D08BB020AB11A0009C3163 /* Wyh3DTouchPhotoPreviewer.m in Sources */ = {isa = PBXBuildFile; fileRef = 09D08BAF20AB11A0009C3163 /* Wyh3DTouchPhotoPreviewer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,11 +59,15 @@
 		0930D77620AA7FED005D7F0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0930D78220AA8892005D7F0E /* TouchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TouchView.h; sourceTree = "<group>"; };
 		0930D78320AA8892005D7F0E /* TouchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TouchView.m; sourceTree = "<group>"; };
-		0930D78520AA88F1005D7F0E /* PreviewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PreviewViewController.h; sourceTree = "<group>"; };
-		0930D78620AA88F1005D7F0E /* PreviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PreviewViewController.m; sourceTree = "<group>"; };
+		0930D78520AA88F1005D7F0E /* WyhPhotoPreviewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WyhPhotoPreviewController.h; sourceTree = "<group>"; };
+		0930D78620AA88F1005D7F0E /* WyhPhotoPreviewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WyhPhotoPreviewController.m; sourceTree = "<group>"; };
 		0930D78C20AAB442005D7F0E /* Source.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Source.bundle; sourceTree = "<group>"; };
 		0930D78E20AACBBF005D7F0E /* PhotoPreviewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewController.h; sourceTree = "<group>"; };
 		0930D78F20AACBBF005D7F0E /* PhotoPreviewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewController.m; sourceTree = "<group>"; };
+		09D08BAB20AB0E3A009C3163 /* Wyh3DTouchSuperPreviewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wyh3DTouchSuperPreviewController.h; sourceTree = "<group>"; };
+		09D08BAC20AB0E3A009C3163 /* Wyh3DTouchSuperPreviewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Wyh3DTouchSuperPreviewController.m; sourceTree = "<group>"; };
+		09D08BAE20AB11A0009C3163 /* Wyh3DTouchPhotoPreviewer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wyh3DTouchPhotoPreviewer.h; sourceTree = "<group>"; };
+		09D08BAF20AB11A0009C3163 /* Wyh3DTouchPhotoPreviewer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Wyh3DTouchPhotoPreviewer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,8 +124,12 @@
 				0930D75420AA7FEC005D7F0E /* ViewController.m */,
 				0930D78220AA8892005D7F0E /* TouchView.h */,
 				0930D78320AA8892005D7F0E /* TouchView.m */,
-				0930D78520AA88F1005D7F0E /* PreviewViewController.h */,
-				0930D78620AA88F1005D7F0E /* PreviewViewController.m */,
+				09D08BAE20AB11A0009C3163 /* Wyh3DTouchPhotoPreviewer.h */,
+				09D08BAF20AB11A0009C3163 /* Wyh3DTouchPhotoPreviewer.m */,
+				09D08BAB20AB0E3A009C3163 /* Wyh3DTouchSuperPreviewController.h */,
+				09D08BAC20AB0E3A009C3163 /* Wyh3DTouchSuperPreviewController.m */,
+				0930D78520AA88F1005D7F0E /* WyhPhotoPreviewController.h */,
+				0930D78620AA88F1005D7F0E /* WyhPhotoPreviewController.m */,
 				0930D78E20AACBBF005D7F0E /* PhotoPreviewController.h */,
 				0930D78F20AACBBF005D7F0E /* PhotoPreviewController.m */,
 				0930D78C20AAB442005D7F0E /* Source.bundle */,
@@ -285,9 +295,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				0930D78420AA8892005D7F0E /* TouchView.m in Sources */,
+				09D08BB020AB11A0009C3163 /* Wyh3DTouchPhotoPreviewer.m in Sources */,
 				0930D79020AACBBF005D7F0E /* PhotoPreviewController.m in Sources */,
 				0930D75520AA7FEC005D7F0E /* ViewController.m in Sources */,
-				0930D78720AA88F1005D7F0E /* PreviewViewController.m in Sources */,
+				0930D78720AA88F1005D7F0E /* WyhPhotoPreviewController.m in Sources */,
+				09D08BAD20AB0E3A009C3163 /* Wyh3DTouchSuperPreviewController.m in Sources */,
 				0930D76020AA7FEC005D7F0E /* main.m in Sources */,
 				0930D75220AA7FEC005D7F0E /* AppDelegate.m in Sources */,
 			);

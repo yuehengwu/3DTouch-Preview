@@ -6,9 +6,9 @@
 //  Copyright © 2018年 wyh. All rights reserved.
 //
 
-#import "PreviewViewController.h"
+#import "WyhPhotoPreviewController.h"
 
-@interface PreviewViewController ()
+@interface WyhPhotoPreviewController ()
 
 @property (nonatomic, strong) UIImageView *gifImageView;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -17,7 +17,7 @@
 
 @end
 
-@implementation PreviewViewController
+@implementation WyhPhotoPreviewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,17 +30,11 @@
     [self.view addSubview:self.gifImageView];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self startPreviewing];
-}
-
 - (void)dealloc {
     
 }
 
-
+#pragma mark - OverWrite
 
 - (void)startPreviewing {
     
@@ -49,11 +43,6 @@
         [self.gifImageView startAnimating];
         self.gifImageView.center = self.view.center;
     }
-    
-//    CGRect frame = self.gifImageView.frame;
-//    frame.origin.y -= 22;
-//    frame.size.height += 22;
-//    self.gifImageView.frame = frame;
 }
 
 - (void)stopPreviewing {
@@ -62,6 +51,8 @@
     
     [self reconfigUIIfPreviewStopped];
 }
+
+#pragma mark - Privte Function
 
 - (void)reconfigUIIfPreviewStopped {
     
@@ -85,7 +76,7 @@
             lastImg = imgView;
         }
     }
-    self.scrollView.contentSize = CGSizeMake(0, CGRectGetMaxY(lastImg.frame));
+    self.scrollView.contentSize = CGSizeMake(0, CGRectGetMaxY(lastImg.frame) + edgeY);
 }
 
 #pragma mark - API

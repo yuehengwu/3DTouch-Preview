@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Wyh3DTouchSuperPreviewController.h"
 
-@interface PreviewViewController : UIViewController
+@interface WyhPhotoPreviewController : Wyh3DTouchSuperPreviewController
 
 - (CGSize)setGifImages:(NSArray<UIImage *>*)gifImages;
 
-- (void)stopPreviewing;
 
 @end

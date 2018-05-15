@@ -7,7 +7,6 @@
 //
 
 #import "TouchView.h"
-#import "PreviewViewController.h"
 
 @interface TouchView() 
 
