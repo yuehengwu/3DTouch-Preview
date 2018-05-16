@@ -7,14 +7,15 @@
 //
 
 #import "WyhPhotoPreviewController.h"
+#import "WyhPhotoSelector.h"
 
-@interface WyhPhotoPreviewController ()
+@interface WyhPhotoPreviewController () <WyhPhotoSelectorDelegate>
 
 @property (nonatomic, strong) UIImageView *gifImageView;
 @property (nonatomic, strong) UIScrollView *scrollView;
 
 @property (nonatomic, strong) NSArray<UIImage *>* gifs;
-
+@property (nonatomic, strong) NSMutableArray<UIImageView *>* gifImageViews;
 @end
 
 @implementation WyhPhotoPreviewController
@@ -62,6 +63,8 @@
     self.scrollView.frame = self.view.bounds;
     [self.view addSubview:self.scrollView];
     
+    self.gifImageViews = [NSMutableArray new];
+    
     CGFloat edgeX = 5.f, imgW = (UIScreen.mainScreen.bounds.size.width - edgeX*3)/2;
     CGFloat edgeY = 5.f;
     UIView *lastImg = NULL;
@@ -74,9 +77,27 @@
             imgView.frame = CGRectMake(imgX, imgY, imgW, imgW*0.9);
             [self.scrollView addSubview:imgView];
             lastImg = imgView;
+            // tap
+            imgView.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapImageIntoSelector:)];
+            [imgView addGestureRecognizer:tap];
+            
+            [self.gifImageViews addObject:imgView];
         }
     }
     self.scrollView.contentSize = CGSizeMake(0, CGRectGetMaxY(lastImg.frame) + edgeY);
+}
+
+- (void)tapImageIntoSelector:(UITapGestureRecognizer *)tapges {
+    
+    UIImageView *imgView = (UIImageView *)tapges.view;
+    NSInteger index = [self.gifImageViews indexOfObject:imgView];
+    
+    WyhPhotoSelector *selector = [[WyhPhotoSelector alloc]initWithDelegate:self];
+    [selector showWithIndex:index];
+    selector.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:selector animated:YES completion:nil];
+    
 }
 
 #pragma mark - API
@@ -109,6 +130,15 @@
     }];
     
     return @[share,cancel];
+}
+
+#pragma mark - Photo selector
+
+- (NSArray<UIImage *> *)localPhotos {
+    if (self.gifs != nil) {
+        return [self.gifs copy];
+    }
+    return nil;
 }
 
 #pragma mark - lazy
