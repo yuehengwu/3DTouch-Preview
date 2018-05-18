@@ -11,18 +11,19 @@
 
 @interface Wyh3DTouchPhotoPreviewer ()<UIViewControllerPreviewingDelegate>
 
-@property (nonatomic, weak) UIViewController<Wyh3DTouchPhotoPreviewerDelegate> *delegate;
+
+@property (nonatomic, weak) UIViewController *peekController;
 
 @end
 
 @implementation Wyh3DTouchPhotoPreviewer
 
-+ (instancetype)previewerWithDelegate:(UIViewController<Wyh3DTouchPhotoPreviewerDelegate> *)delegate {
++ (instancetype)previewerWithPeekController:(UIViewController *)controller {
     
-    NSAssert(delegate, @"Wyh3DTouchPhotoPreviewer must need a delegate !");
+    NSAssert(controller, @"Wyh3DTouchPhotoPreviewer must need a controller !");
     
     Wyh3DTouchPhotoPreviewer *previewer = [[Wyh3DTouchPhotoPreviewer alloc]init];
-    previewer.delegate = delegate;
+    previewer.peekController = controller;
     return previewer;
 }
 
@@ -30,8 +31,8 @@
     
     NSAssert(sourceView, @"register must need a sourceView !");
     
-    if (self.delegate.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
-        [self.delegate registerForPreviewingWithDelegate:self sourceView:sourceView];
+    if (self.peekController.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+        [self.peekController registerForPreviewingWithDelegate:self sourceView:sourceView];
     }
     
     // If current iPhone don't support 3DTouch
@@ -42,7 +43,7 @@
 
 - (void)longPressIfDontSupport3DTouch:(UILongPressGestureRecognizer *)longpress {
     
-    UIView *sourceView = longpress.view;
+//    UIView *sourceView = longpress.view;
     
     if (longpress.state == UIGestureRecognizerStateEnded) {
         // 向下兼容
@@ -71,13 +72,16 @@
 // peek
 - (UIViewController *)previewingContext:(id<UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location {
     
-    if (![self.delegate respondsToSelector:@selector(wyh3DTouchPhotoPathWithSourceView:)]) {
-        NSAssert(NO, @"delegate must implete 'wyh3DTouchPhotoPathWithSourceView:'");
+//    if (![self.dataSource respondsToSelector:@selector(wyh3DTouchPhotoPathWithSourceView:)]) {
+//        NSAssert(NO, @"delegate must implete 'wyh3DTouchPhotoPathWithSourceView:'");
+//    }
+    if (![self.dataSource respondsToSelector:@selector(wyh3DTouchGifArrWithSourceView:)]) {
+        NSAssert(NO, @"delegate must implete 'wyh3DTouchGifArrWithSourceView:'");
     }
     
     WyhPhotoPreviewController *previewVC = [[WyhPhotoPreviewController alloc]init];
-    NSArray *gifs = NULL;
-    gifs = [self gifWithPath:[self.delegate wyh3DTouchPhotoPathWithSourceView:previewingContext.sourceView]];
+    NSArray *gifs = [self.dataSource wyh3DTouchGifArrWithSourceView:previewingContext.sourceView];
+//    gifs = [self gifWithPath:[self.dataSource wyh3DTouchPhotoPathWithSourceView:previewingContext.sourceView]];
     CGSize size = [previewVC setGifImages:gifs];
     previewVC.preferredContentSize = size;
     return previewVC;
@@ -87,7 +91,7 @@
 // pop
 - (void)previewingContext:(id<UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit {
     
-    [self.delegate.navigationController pushViewController:viewControllerToCommit animated:YES];
+    [self.peekController.navigationController pushViewController:viewControllerToCommit animated:YES];
     [(WyhPhotoPreviewController *)viewControllerToCommit stopPreviewing];
 }
 

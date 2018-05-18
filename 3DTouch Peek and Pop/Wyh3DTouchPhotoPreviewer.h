@@ -7,18 +7,27 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Wyh3DTouchPreviewerProtocol.h"
 
 @class Wyh3DTouchPhotoPreviewer;
 
-@protocol Wyh3DTouchPhotoPreviewerDelegate <NSObject>
+@protocol Wyh3DTouchPhotoPreviewerDataSource <NSObject>
 
+@optional
 - (NSString *)wyh3DTouchPhotoPathWithSourceView:(UIView *)sourceView;
+
+- (NSArray<UIImage *>*)wyh3DTouchGifArrWithSourceView:(UIView *)sourceView;
 
 @end
 
-@interface Wyh3DTouchPhotoPreviewer : NSObject
+@interface Wyh3DTouchPhotoPreviewer : NSObject<Wyh3DTouchPreviewerProtocol>
 
-+ (instancetype)previewerWithDelegate:(UIViewController<Wyh3DTouchPhotoPreviewerDelegate> *)delegate;
+/**
+ Previewer must need a delegate to obtain the data-source.
+ */
+@property (nonatomic, weak) id<Wyh3DTouchPhotoPreviewerDataSource> dataSource;
+
++ (instancetype)previewerWithPeekController:(UIViewController *)controller;
 
 - (void)registerForPreviewingWithSourceView:(UIView *)sourceView;
 

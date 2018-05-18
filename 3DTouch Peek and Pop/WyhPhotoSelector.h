@@ -9,7 +9,7 @@
 
 #import "Wyh3DTouchSuperPreviewController.h"
 
-@protocol WyhPhotoSelectorDelegate <NSObject>
+@protocol WyhPhotoSelectorDataSource <NSObject>
 
 @optional
 
@@ -17,13 +17,21 @@
 
 - (NSArray<UIImage *>*)localPhotos;
 
+/* example:
+ @[
+ [NSNumber valueWithCGPoint:CGPointMake(0.5, 0.48)],
+ [NSNumber valueWithCGPoint:CGPointMake(0.14, 0.3)]
+ ]
+ */
+- (NSArray<NSNumber*>*)zoomAnchorPointsForIndex:(NSInteger)index;
+
 @end
 
 @interface WyhPhotoSelector : Wyh3DTouchSuperPreviewController
 
-@property (nonatomic, weak) id<WyhPhotoSelectorDelegate> delegate;
+@property (nonatomic, weak) id<WyhPhotoSelectorDataSource> dataSource;
 
-- (instancetype)initWithDelegate:(id<WyhPhotoSelectorDelegate>)delegate;
+- (instancetype)initWithDataSource:(id<WyhPhotoSelectorDataSource>)dataSource;
 
 - (void)showWithIndex:(NSUInteger)index;
 

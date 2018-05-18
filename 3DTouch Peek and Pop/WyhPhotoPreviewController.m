@@ -7,15 +7,18 @@
 //
 
 #import "WyhPhotoPreviewController.h"
-#import "WyhPhotoSelector.h"
+#import "WyhPhotoSelectorService.h"
 
-@interface WyhPhotoPreviewController () <WyhPhotoSelectorDelegate>
+@interface WyhPhotoPreviewController ()
 
 @property (nonatomic, strong) UIImageView *gifImageView;
 @property (nonatomic, strong) UIScrollView *scrollView;
 
 @property (nonatomic, strong) NSArray<UIImage *>* gifs;
 @property (nonatomic, strong) NSMutableArray<UIImageView *>* gifImageViews;
+
+@property (nonatomic, strong) WyhPhotoSelectorService *photoService;
+
 @end
 
 @implementation WyhPhotoPreviewController
@@ -24,7 +27,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"Gif";
+    self.title = @"Alarm Photo";
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -66,6 +69,7 @@
     self.gifImageViews = [NSMutableArray new];
     
     CGFloat edgeX = 5.f, imgW = (UIScreen.mainScreen.bounds.size.width - edgeX*3)/2;
+    CGFloat imgH = self.gifImageView.bounds.size.height*imgW/self.gifImageView.bounds.size.width;
     CGFloat edgeY = 5.f;
     UIView *lastImg = NULL;
     for (int i = 0; i < self.gifs.count; i++) {
@@ -73,8 +77,8 @@
             UIImage *img = self.gifs[i];
             UIImageView *imgView = [[UIImageView alloc]initWithImage:img];
             CGFloat imgX = (i%2==0)?edgeX:(imgW+2*edgeX);
-            CGFloat imgY = (i%2==0) ? (!lastImg?(64.f+edgeY):CGRectGetMaxY(lastImg.frame)+edgeY) : (lastImg.frame.origin.y);
-            imgView.frame = CGRectMake(imgX, imgY, imgW, imgW*0.9);
+            CGFloat imgY = (i%2==0) ? (!lastImg?(64.f+edgeY+24.f):CGRectGetMaxY(lastImg.frame)+edgeY) : (lastImg.frame.origin.y);
+            imgView.frame = CGRectMake(imgX, imgY, imgW, imgH);
             [self.scrollView addSubview:imgView];
             lastImg = imgView;
             // tap
@@ -93,10 +97,8 @@
     UIImageView *imgView = (UIImageView *)tapges.view;
     NSInteger index = [self.gifImageViews indexOfObject:imgView];
     
-    WyhPhotoSelector *selector = [[WyhPhotoSelector alloc]initWithDelegate:self];
-    [selector showWithIndex:index];
-    selector.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:selector animated:YES completion:nil];
+    self.photoService.localImages = [self.gifs copy];
+    [self.photoService showPhotoWithIndex:index SourceController:self];
     
 }
 
@@ -156,6 +158,13 @@
         _scrollView.bounces = YES;
     }
     return _scrollView;
+}
+
+- (WyhPhotoSelectorService *)photoService {
+    if (!_photoService) {
+        _photoService = [WyhPhotoSelectorService service];
+    }
+    return _photoService;
 }
 
 - (void)didReceiveMemoryWarning {

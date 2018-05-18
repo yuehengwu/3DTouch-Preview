@@ -69,6 +69,7 @@
 		09D08BAC20AB0E3A009C3163 /* Wyh3DTouchSuperPreviewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Wyh3DTouchSuperPreviewController.m; sourceTree = "<group>"; };
 		09D08BAE20AB11A0009C3163 /* Wyh3DTouchPhotoPreviewer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wyh3DTouchPhotoPreviewer.h; sourceTree = "<group>"; };
 		09D08BAF20AB11A0009C3163 /* Wyh3DTouchPhotoPreviewer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Wyh3DTouchPhotoPreviewer.m; sourceTree = "<group>"; };
+		09FA6F2020AEC2E90015E72F /* Wyh3DTouchPreviewerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Wyh3DTouchPreviewerProtocol.h; sourceTree = "<group>"; };
 		09FFAD3D20ABCD5A0068032C /* WyhPhotoSelectorService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WyhPhotoSelectorService.h; sourceTree = "<group>"; };
 		09FFAD3E20ABCD5A0068032C /* WyhPhotoSelectorService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WyhPhotoSelectorService.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +128,7 @@
 				0930D75420AA7FEC005D7F0E /* ViewController.m */,
 				0930D78220AA8892005D7F0E /* TouchView.h */,
 				0930D78320AA8892005D7F0E /* TouchView.m */,
+				09FA6F2020AEC2E90015E72F /* Wyh3DTouchPreviewerProtocol.h */,
 				09D08BAE20AB11A0009C3163 /* Wyh3DTouchPhotoPreviewer.h */,
 				09D08BAF20AB11A0009C3163 /* Wyh3DTouchPhotoPreviewer.m */,
 				09D08BAB20AB0E3A009C3163 /* Wyh3DTouchSuperPreviewController.h */,

@@ -11,8 +11,10 @@
 
 @interface WyhPhotoSelectorService : NSObject
 
+@property (nonatomic, strong) NSArray<UIImage *>*localImages;
+
 + (instancetype)service;
 
-
+- (void)showPhotoWithIndex:(NSInteger)index SourceController:(UIViewController *)controller;
 
 @end

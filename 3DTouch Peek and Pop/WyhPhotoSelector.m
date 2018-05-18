@@ -30,10 +30,10 @@
 
 @implementation WyhPhotoSelector
 
-- (instancetype)initWithDelegate:(id<WyhPhotoSelectorDelegate>)delegate {
+- (instancetype)initWithDataSource:(id<WyhPhotoSelectorDataSource>)dataSource {
     
     if (self = [super init]) {
-        _delegate = delegate;
+        _dataSource = dataSource;
     }
     return self;
 }
@@ -75,15 +75,21 @@
 
 - (void)startZoomAnimations {
     
-    [self zoomInWithCurrentZoomIndex:0];
-    
+    _currentZoomIndex = 0;
+    if (!self.currentZoomAnimation) {
+        [self zoomInWithCurrentZoomIndex:_currentZoomIndex];
+    }
 }
 
 - (void)zoomInWithCurrentZoomIndex:(NSInteger)index {
     
     _currentZoomIndex = index;
-    NSArray *point = [self anchorPoints][index];
-    CGPoint archorPoint = CGPointMake([point[0] floatValue], [point[1] floatValue]);
+    if (![self.dataSource respondsToSelector:@selector(zoomAnchorPointsForIndex:)]) {
+        NSAssert(NO, @"zoomAnchorPointsForIndex: must be implement !");
+    }
+    
+    NSArray *points = [self.dataSource zoomAnchorPointsForIndex:_currentIndex];
+    CGPoint archorPoint = [points[index] CGPointValue];
     
     UIImageView *currentScroll = self.imageViews[_currentIndex];
     CGRect o_frame = currentScroll.frame;
@@ -135,7 +141,8 @@
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
     if (flag && self.currentZoomAnimation) {
-        _currentZoomIndex = ((_currentZoomIndex+1) < self.anchorPoints.count)?(_currentZoomIndex+1):0; // repeat
+        NSArray *zoomPoints = [self.dataSource zoomAnchorPointsForIndex:_currentIndex];
+        _currentZoomIndex = ((_currentZoomIndex+1) < zoomPoints.count)?(_currentZoomIndex+1):0; // repeat
         [self zoomInWithCurrentZoomIndex:_currentZoomIndex];
     }
 }
@@ -201,12 +208,12 @@
     
     _currentIndex = index;
     
-    if ([self.delegate respondsToSelector:@selector(netPhotoURLs)]) {
-        self.netPhotoURLs = [[self.delegate netPhotoURLs] copy];
+    if ([self.dataSource respondsToSelector:@selector(netPhotoURLs)]) {
+        self.netPhotoURLs = [[self.dataSource netPhotoURLs] copy];
     }
     
-    if ([self.delegate respondsToSelector:@selector(localPhotos)]) {
-        self.localPhotos = [[self.delegate localPhotos] copy];
+    if ([self.dataSource respondsToSelector:@selector(localPhotos)]) {
+        self.localPhotos = [[self.dataSource localPhotos] copy];
         self.scrollView.contentSize = CGSizeMake(self.view.bounds.size.width*self.localPhotos.count, 0); // reconfig contentSize.
         [self.scrollView setContentOffset:CGPointMake(self.view.bounds.size.width*index, 0)];
         
@@ -220,7 +227,10 @@
 
 #pragma mark - ScrollView delegate
 
+static CGPoint _beginDragPoint ;
+
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    _beginDragPoint = self.scrollView.contentOffset;
     [self stopCurrentZoomAnimation];
 }
 
@@ -233,7 +243,9 @@
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-//    [self startZoomAnimations];
+    if (self.scrollView.contentOffset.x != _beginDragPoint.x) {
+        [self startZoomAnimations]; //repeat animation.
+    }
 }
 
 // Zoom
@@ -299,14 +311,14 @@
     return _scrollViews;
 }
 
-- (NSArray *)anchorPoints {
-    return @[
-              @[@0,@0],
-              @[@1,@0],
-              @[@1,@1],
-              @[@0,@1],
-  ];
-}
+//- (NSArray *)anchorPoints {
+//    return @[
+//              @[@0,@0],
+//              @[@1,@0],
+//              @[@1,@1],
+//              @[@0,@1],
+//  ];
+//}
 
 - (UILabel *)pageCountLabel {
     if (!_pageCountLabel) {

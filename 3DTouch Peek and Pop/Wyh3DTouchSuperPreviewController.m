@@ -22,7 +22,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self startPreviewing];
+    if (!self.isPreviewed) {
+        [self startPreviewing];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -36,7 +38,7 @@
 }
 
 - (void)stopPreviewing {
-    
+    self.isPreviewed = YES;
 }
 
 /*
